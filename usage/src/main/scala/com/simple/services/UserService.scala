@@ -1,5 +1,6 @@
 package com.simple.services
 
+import java.time.LocalDateTime
 import java.util.UUID
 
 import com.simple.Response._
@@ -17,7 +18,8 @@ trait UserService {
   def getUsersByName(name: String): Future[ServiceResponse[Seq[User]]]
   def getAllUsers: Future[ServiceResponse[Seq[User]]]
 
-  //def createUser(user: User): Future[ServiceResponse[Boolean]]
+  def createUser(user: User): Future[ServiceResponse[User]]
+  def deleteUser(id: UUID): Future[ServiceResponse[Boolean]]
 }
 
 trait UserServiceComponent {
@@ -62,5 +64,30 @@ trait UserServiceComponent {
           }
           case users => Right(users)
         }
+
+    def createUser(user: User): Future[ServiceResponse[User]] = {
+      val created = java.sql.Timestamp.valueOf(LocalDateTime.now())
+
+      val userToInsert =
+        user
+          .copy(id = UUID.randomUUID, created = created)
+
+      repo
+        .insert(userToInsert)
+        .map {
+          case u if u.id != null => Right(u)
+          case _ => Left(ErrorResponse(s"User could not be created.", 0))
+        }
+    }
+
+    def deleteUser(id: UUID): Future[ServiceResponse[Boolean]] = {
+      repo
+        .delete(id)
+        .map {
+          case true => Right(true)
+          case false => Left(ErrorResponse(s"Could not delete user $id.", 0))
+        }
+    }
+
   }
 }

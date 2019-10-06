@@ -32,7 +32,6 @@ trait EntityTableDefinition {
     val id = column[UUID]("id", O.PrimaryKey)
     val created = column[Timestamp]("created_at")
     val updated = column[Timestamp]("updated_at")
-    val deleted = column[Timestamp]("deleted_at")
   }
 
 }

@@ -16,7 +16,7 @@ trait UserDBComponent extends RepoDefinition {
     val email = column[String]("email")
 
     def * =
-      (id, name, email.?, created, updated.?, deleted.?) <> (User.tupled, User.unapply)
+      (id, name, email.?, created, updated.?) <> (User.tupled, User.unapply)
   }
 
   class UserRepo(implicit ec: ExecutionContext) extends EntityRepo[User, UserTable] {
