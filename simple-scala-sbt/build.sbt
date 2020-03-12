@@ -11,13 +11,13 @@ lazy val usage = (project in file("usage"))
   .settings(
     commonSettings,
     name := "usage"
-  )
+  ) dependsOn core
 
 lazy val core = (project in file("core"))
   .settings(
     commonSettings,
     name := "core"
-  ) dependsOn usage
+  )
 
 lazy val root = (project in file("."))
   .settings(

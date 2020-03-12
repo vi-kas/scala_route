@@ -12,10 +12,6 @@ class OrderRoutes(orderService: OrderService) {
 
   def config: Config = ConfigFactory.load()
 
-  trait ApiV1 {
-    val apiPrefix: Directive[Unit] = pathPrefix("api" / "v1")
-  }
-
   val routes: Route =
     pathPrefix("orders") {
 
