@@ -10,3 +10,6 @@ Contains code samples for Scala.
 
 ## Akka Http Auth
 > [README](https://github.com/vi-kas/scala_route/blob/master/akka-http-auth/README.md)
+
+## Simple SBT Kafka
+> [README](https://github.com/vi-kas/scala_route/blob/master/simple-sbt-kafka/README.md)
