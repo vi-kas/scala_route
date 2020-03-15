@@ -51,7 +51,7 @@ lazy val usage = (project in file("usage"))
 lazy val root = (project in file("."))
   .settings(
     name := "simple-sbt-kafka",
-    commonSettings,
+    commonSettings
   )
 
 // avroSpecificScalaSource in Compile := (sourceDirectory in Compile).value,

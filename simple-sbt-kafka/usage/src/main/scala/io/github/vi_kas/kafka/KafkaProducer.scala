@@ -9,9 +9,7 @@ import org.slf4j.LoggerFactory
 
 import scala.util.{Failure, Success, Try}
 
-trait KafkaProducer {
-
-  val appConfig: Config
+class KafkaProducer(appConfig: Config) {
 
   import akka.kafka.ProducerSettings
   private val logger = LoggerFactory.getLogger(getClass)

@@ -6,7 +6,8 @@ import akka.http.scaladsl.Http
 import akka.http.scaladsl.server.Route
 import akka.stream.Materializer
 import com.softwaremill.macwire._
-import com.typesafe.config.Config
+import com.typesafe.config.{Config, ConfigFactory}
+import io.github.vi_kas.kafka.KafkaProducer
 import io.github.vi_kas.routes.OrderRoutes
 import io.github.vi_kas.services.OrderServiceImpl
 
@@ -32,6 +33,8 @@ class HttpService private (config: Config, routes: Route)(implicit system: Actor
 
 object HttpService {
 
+  val config: Config = ConfigFactory.load()
+  val kafkaProducer = wire[KafkaProducer]
   val orderService = wire[OrderServiceImpl]
 
   val orderRoutes: OrderRoutes = wire[OrderRoutes]
