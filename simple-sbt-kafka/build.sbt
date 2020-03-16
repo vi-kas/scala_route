@@ -30,29 +30,32 @@ lazy val kafkaDependencies = Seq(
   "io.confluent" % "kafka-streams-avro-serde" % "4.1.0",
 )
 
-lazy val core = (project in file("core"))
+lazy val orderProcessor = (project in file("order-processor"))
   .settings(
     commonSettings,
-    name := "core"
-  )
-
-lazy val usage = (project in file("usage"))
-  .settings(
-    commonSettings,
-    name := "usage",
+    name := "orderProcessor",
     libraryDependencies ++= akkaDependencies ++ kafkaDependencies
   )
   .enablePlugins(SbtAvrohugger)
   .settings(
     avroSpecificScalaSource in Compile := (sourceDirectory in Compile).value / "scala",
     sourceGenerators in Compile += (avroScalaGenerateSpecific in Compile).taskValue
-  ) dependsOn core
+  )
+
+lazy val ordersAPI = (project in file("order-api"))
+  .settings(
+    commonSettings,
+    name := "ordersAPI",
+    libraryDependencies ++= akkaDependencies ++ kafkaDependencies
+  )
+  .enablePlugins(SbtAvrohugger)
+  .settings(
+    avroSpecificScalaSource in Compile := (sourceDirectory in Compile).value / "scala",
+    sourceGenerators in Compile += (avroScalaGenerateSpecific in Compile).taskValue
+  )
 
 lazy val root = (project in file("."))
   .settings(
     name := "simple-sbt-kafka",
     commonSettings
   )
-
-// avroSpecificScalaSource in Compile := (sourceDirectory in Compile).value,
-// sourceGenerators in Compile += (avroScalaGenerateSpecific in Compile).taskValue
