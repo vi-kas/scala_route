@@ -3,7 +3,8 @@ package io.github.vi_kas.kafka
 import java.util.concurrent.TimeUnit
 
 import com.typesafe.config.Config
-import io.github.vi_kas.kafka.KafkaProtocol._
+import io.github.vi_kas.kafka.protocol.KafkaProtocol._
+import io.github.vi_kas.kafka.protocol.SpecificRecordSerDe
 import org.apache.kafka.clients.producer.{Producer, ProducerRecord}
 import org.slf4j.LoggerFactory
 

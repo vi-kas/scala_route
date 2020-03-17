@@ -1,4 +1,4 @@
-package io.github.vi_kas.kafka
+package io.github.vi_kas.kafka.protocol
 
 import java.util
 

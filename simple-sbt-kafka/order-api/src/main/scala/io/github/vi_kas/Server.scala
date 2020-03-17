@@ -1,13 +1,13 @@
 package io.github.vi_kas
 
-import com.typesafe.config.{Config, ConfigFactory}
 import akka.actor.ActorSystem
-import akka.stream.{ActorMaterializer, Materializer}
+import akka.stream.Materializer
+import com.typesafe.config.{Config, ConfigFactory}
 
 object Server extends App {
 
   implicit val system: ActorSystem = ActorSystem()
-  implicit val materializer: Materializer = ActorMaterializer()
+  implicit val materializer: Materializer = Materializer(system)
 
   def config: Config = ConfigFactory.load()
 

@@ -34,11 +34,11 @@ class HttpService private (config: Config, routes: Route)(implicit system: Actor
 object HttpService {
 
   val config: Config = ConfigFactory.load()
-  val kafkaProducer = wire[KafkaProducer]
-  val orderService = wire[OrderServiceImpl]
+  val kafkaProducer: KafkaProducer = wire[KafkaProducer]
+  val orderService: OrderServiceImpl = wire[OrderServiceImpl]
 
   val orderRoutes: OrderRoutes = wire[OrderRoutes]
-  val serviceRoutes = orderRoutes.routes
+  val serviceRoutes: Route = orderRoutes.routes
 
   def run(config: Config)(implicit system: ActorSystem, materializer: Materializer) =
     new HttpService(config, serviceRoutes)

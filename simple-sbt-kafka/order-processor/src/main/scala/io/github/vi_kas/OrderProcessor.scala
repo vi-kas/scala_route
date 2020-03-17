@@ -2,17 +2,17 @@ package io.github.vi_kas
 
 import akka.Done
 import akka.actor.ActorSystem
-import akka.event.{Logging, LoggingAdapter}
 import akka.kafka.scaladsl.Consumer
 import akka.stream.Materializer
 import com.softwaremill.macwire._
 import com.typesafe.config.{Config, ConfigFactory}
 import io.github.vi_kas.kafka.{KafkaConsumer, KafkaConsumerAtMostOnce}
-import org.slf4j.LoggerFactory
+import io.github.vi_kas.services.{OrderProcessingService, OrderProcessingServiceImpl}
+import org.slf4j.{Logger, LoggerFactory}
 
-import scala.concurrent.{ExecutionContextExecutor, Future}
+import scala.concurrent.Future
 
-class OrderProcessor private(config: Config, kafkaConsumer: KafkaConsumer)(implicit system: ActorSystem, materializer: Materializer) {
+class OrderProcessor private(config: Config, kafkaConsumer: KafkaConsumer) {
 
   private val logger = LoggerFactory.getLogger(getClass)
 
@@ -30,20 +30,17 @@ class OrderProcessor private(config: Config, kafkaConsumer: KafkaConsumer)(impli
 }
 
 object OrderProcessor extends App {
+  val logger: Logger = LoggerFactory.getLogger(getClass)
 
   implicit val system: ActorSystem = ActorSystem()
   implicit val materializer: Materializer = Materializer(system)
-  implicit val executionContext = system.dispatcher
 
-  private val ORDERS_TOPIC = "simple.order"
+  val config: Config = ConfigFactory.load()
+  private val ORDERS_TOPIC = config.getString("kafka.topics.events.order")
 
-  implicit def executor: ExecutionContextExecutor = system.dispatcher
-  val logger: LoggingAdapter = Logging(system, getClass)
-
-  def config: Config = ConfigFactory.load()
-
+  val orderProcessingService: OrderProcessingService = wire[OrderProcessingServiceImpl]
   val kConsumer: KafkaConsumer = wire[KafkaConsumerAtMostOnce]
 
-  val orderProcessor = new OrderProcessor(config, kConsumer)
-  orderProcessor.start(ORDERS_TOPIC)
+  new OrderProcessor(config, kConsumer)
+    .start(ORDERS_TOPIC)
 }

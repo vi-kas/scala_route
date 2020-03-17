@@ -1,6 +1,7 @@
 package io.github.vi_kas.kafka
 
 import io.confluent.kafka.schemaregistry.client.{CachedSchemaRegistryClient, SchemaRegistryClient}
+import io.github.vi_kas.kafka.protocol.{SpecificRecordSerDe, SpecificRecordSerDeAvroImpl}
 
 object RecordSerDeBuilder {
 
