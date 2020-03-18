@@ -13,3 +13,6 @@ Contains code samples for Scala.
 
 ## Simple SBT Kafka
 > [README](https://github.com/vi-kas/scala_route/blob/master/simple-sbt-kafka/README.md)
+
+## Simple Play Framework
+> [README](https://github.com/vi-kas/scala_route/blob/master/simple-play-framework/README.md)
