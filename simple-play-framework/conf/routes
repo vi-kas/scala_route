@@ -1,0 +1,9 @@
+
+GET          /                        io.github.vi_kas.controllers.ViewController.index
+
+# Just for Login Screen.
+GET          /loginScreen             io.github.vi_kas.controllers.ViewController.login
+POST         /loginSubmit             io.github.vi_kas.controllers.ViewController.verifyLogin
+
+# Assets
+GET          /assets/*file            controllers.Assets.at(file)

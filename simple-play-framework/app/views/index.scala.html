@@ -1,0 +1,47 @@
+@()(implicit request: Request[Any], messageProvider: MessagesProvider, assets: AssetsFinder)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Auth</title>
+        <link rel="stylesheet" media="screen" href="@assets.path("stylesheets/bootstrap.min.css")">
+        <link rel="stylesheet" media="screen" href="@assets.path("stylesheets/main.css")">
+    </head>
+
+    <body>
+        <div class="container">
+            <nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ffffff;">
+                <a class="navbar-brand" href="#">AppHome</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+                        <a class="nav-item nav-link" href="#">Categories</a>
+                        <a class="nav-item nav-link" href="#">Today's Deals</a>
+                        <a class="nav-item nav-link" href="#">Contact Us</a>
+                    </div>
+                </div>
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                </form>
+            </nav>
+
+            <div class="jumbotron" style="background-color: #e3f2fd;">
+                <h1 class="display-4">Hello people!</h1>
+                <p class="lead">Think of the app as you Shopping App, you want to shop or see your previous orders. For that,
+                    the app requires you to login.</p>
+                <p class="lead">When the application loaded, I deliberately didn't call the Auth Server to check for session.</p>
+                <hr class="my-4">
+                <p>Once you click on Login Button, it will redirect you to <strong>Authorization Server</strong>, The call should look like:</p>
+                <p>/oauth2/auth?client_id=app_client&redirect_uri=http://localhost:8082/auth/handleOauth&state=foo&scope=openid&nonce=bar&response_type=token</p>
+                <p class="lead">
+                    <a class="btn btn-primary btn-lg" href="http://localhost:9000/loginScreen" role="button">Login here</a>
+                </p>
+            </div>
+        </div>
+
+    </body>
+</html>
