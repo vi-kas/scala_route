@@ -31,7 +31,7 @@ It should start the server at `localhost:8080`.
 You may use [Postman](https://www.getpostman.com) to test APIs on this server. `OrderRoutes` lets you create an order through a POST call to `/orders`
 
 In Postman, give a POST call to `localhost:8080/orders` with below request JSON:
-```
+```json
 {
 	"id": "323b78ec-1eb8-4410-c284-f75079b15719",
 	"title": "Apple IPhone 11 Pro",
@@ -41,7 +41,7 @@ In Postman, give a POST call to `localhost:8080/orders` with below request JSON:
 ```
 
 When you click on send, it should return a response in success case.
-```
+```json
 {
     "message": {
         "id": "323b78ec-1eb8-4410-c284-f75079b15719",

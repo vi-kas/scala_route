@@ -16,29 +16,33 @@ Project is divided in 3 modules
 Project requires you to have [docker](https://www.docker.com/products/docker-desktop) installed and daemon running.
 Why? - To setup Kafka on docker quickly.
 
-Take a look at [docker-compose.yml](/docker-compose.yml) file, it defines 3 containers to run as part of kafka setup on docker.
+### Running Kafka with Schema registry on Docker
+
+Take a look at [docker-compose.yml](/simple-sbt-kafka/docker-compose.yml) file, it defines 3 containers to run as part of kafka setup on docker.
 This will use `docker-compose` to run kafka, zookeeper and schema-registry. The tool `docker-compose` comes with `Docker for Mac`
 or Windows installation of docker.
 
 To run kafka on docker, ensure you are in project directory
-Open **Terminal/cmd prompt** :
+Open **terminal/cmd prompt** :
 
 From root directory, give below command to go in `simple-sbt-kafka` directory.
-`cd simple-sbt-kafka`
+> cd simple-sbt-kafka
 
-And simply give the command
-`docker-compose up`
+And simply give the command:
+> docker-compose up
 
 It should run all three containers, you may ensure that in new terminal window, give command:
-`docker ps`
+> docker ps
 
 The command should return, a list of 3 containers.
 
-Once kafka is running, we'll run `orders-api`
-`sbt ordersAPI/run`
+### Running `ordersAPI` and `orderProcessor`
 
-Also, run `order-processor`
-`sbt orderProcessor/run`
+Once kafka is running, give command:
+> sbt ordersAPI/run
+
+Also, run `orderProcessor`:
+> sbt orderProcessor/run
 
 These commands should run ordersAPI and orderProcessor.
 
@@ -47,7 +51,7 @@ It should start the server at `localhost:8080`.
 You may use [Postman](https://www.getpostman.com) to test APIs on this server.
 
 In Postman, give a POST call to `localhost:8080/orders` with below request JSON:
-```
+```json
 {
 	"id": "323b78ec-1eb8-4410-c284-f75079b15719",
 	"title": "Apple IPhone 11 Pro",
@@ -57,7 +61,7 @@ In Postman, give a POST call to `localhost:8080/orders` with below request JSON:
 ```
 
 When you click on send, it should return a response in success case.
-```
+```json
 {
     "message": {
         "id": "323b78ec-1eb8-4410-c284-f75079b15719",

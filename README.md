@@ -16,3 +16,6 @@ Contains code samples for Scala.
 
 ## Simple Play Framework
 > [README](https://github.com/vi-kas/scala_route/blob/master/simple-play-framework/README.md)
+
+## SBT Jenkins Docker
+> [README](https://github.com/vi-kas/scala_route/blob/master/sbt-jenkins-docker/README.md)

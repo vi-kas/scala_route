@@ -21,23 +21,23 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 Open **Terminal/cmd prompt** :  
   
 From root directory, give below command to go in `simple-scala-sbt` directory.  
-`cd simple-scala-sbt`
+> cd simple-scala-sbt
   
 To run, simply give the command  
-`sbt usage/run`
+> sbt usage/run
   
 To Check if a Number is Even or Odd give command  
-`sbt "usage/run 2" ` 
+> sbt "usage/run 2"
   
 In above code snippet we are checking if 2 is Even/odd. (So hard to guess, right? ;)   
   
 
 ## Test  
 Test cases can be found in `SimpleMathsSpec`. To test, simply give the command  
-`sbt usage/test` 
+> sbt usage/test
   
 As shown here:
-```  
+```
 ~/Workspace/scala_route (👉) $ sbt usage/run  
 [info] Loading project definition from ~/Workspace/scala_route/project  
 [info] Loading settings for project root from build.sbt ...  
