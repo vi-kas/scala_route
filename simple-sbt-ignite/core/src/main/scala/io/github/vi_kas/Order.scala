@@ -1,4 +1,4 @@
-package io.github.vi_kas.model
+package io.github.vi_kas
 
 import java.util
 import java.util.UUID

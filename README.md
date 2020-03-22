@@ -19,3 +19,6 @@ Contains code samples for Scala.
 
 ## SBT Jenkins Docker
 > [README](https://github.com/vi-kas/scala_route/blob/master/sbt-jenkins-docker/README.md)
+
+## Simple SBT Ignite
+> [README](https://github.com/vi-kas/scala_route/blob/master/simple-sbt-ignite/README.md)
