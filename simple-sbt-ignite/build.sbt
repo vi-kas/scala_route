@@ -23,6 +23,15 @@ lazy val distributedKVCache = (project in file("distributedKVCache"))
     name := "distributedKVCache"
   ) dependsOn core
 
+lazy val ignitePersistence = (project in file("ignitePersistence"))
+  .settings(
+    commonSettings,
+    name := "ignitePersistence",
+    libraryDependencies += "org.postgresql" % "postgresql" % "42.2.11",
+    libraryDependencies += "com.typesafe.slick" %% "slick" % "3.2.3",
+    libraryDependencies ++= igniteDependencies
+  )
+
 lazy val root = (project in file("."))
   .settings(
     name := "simple-sbt-ignite",
