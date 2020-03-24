@@ -9,14 +9,14 @@ Apache Ignite is In memory computing platform. It provides
 Project is divided in multiple modules, one *core* module and other feature modules depending upon *core*.
 
 ***core***
-The *core* module consists of models e.g. *Order*, along with it's `CacheConfiguration`.
+The *core* module consists of utils.
 
 ***distributedKVCache***
 The *distributedKVCache* module demonstrates the use of Distributed KV caching for *Order*. It depends on *core* module.
 
 ### Run
 
-**distributedKVCache**
+##### **distributedKVCache**
 To run *distributedKVCache* example, give command:
 > sbt distributedKVCache/run
 
@@ -33,3 +33,14 @@ Putting Order info: Order(323b68ec-1cb8-4110-c214-f75079b15719,IPhone 11 Pro,1,1
 [IgniteCacheClient] - Initiating cache: order.
 Order retrieved from Cache: Order(323b68ec-1cb8-4110-c214-f75079b15719,IPhone 11 Pro,1,1699.0)
 ```
+
+
+#### **ignitePersistence** [TBD]
+The *ignitePersistence* module demonstrates the use of ignite as 3rd party persistence. It uses `postgres` as database. It depends on *core* module.
+
+Ensure, postgres is running on Docker. Configure postgres db in `application.conf`.
+
+To run *ignitePersistence* example, give command:
+> sbt ignitePersistence/run
+
+It should run the `IgniteApp`.

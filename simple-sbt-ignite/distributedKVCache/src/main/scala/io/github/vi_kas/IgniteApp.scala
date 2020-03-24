@@ -2,9 +2,11 @@ package io.github.vi_kas
 
 import java.util.UUID
 
+import io.github.vi_kas.models.Order
 import org.apache.ignite.IgniteCache
 import org.apache.ignite.client.ClientCache
 import org.apache.ignite.configuration.{CacheConfiguration, ClientConfiguration, ClientConnectorConfiguration, IgniteConfiguration}
+import org.slf4j.{Logger, LoggerFactory}
 
 object IgniteApp {
 
@@ -13,6 +15,7 @@ object IgniteApp {
    */
   def main(args: Array[String]): Unit = {
 
+    val logger: Logger = LoggerFactory.getLogger(getClass)
     val orderCacheConfiguration: CacheConfiguration[UUID, Order] = Order.cacheConfiguration
 
     val someOrderUUID = UUID.fromString("323b68ec-1cb8-4110-c214-f75079b15719")
@@ -42,7 +45,7 @@ object IgniteApp {
     val orderCacheInstance: IgniteCache[UUID, Order] =
       IgniteCacheServer(igniteConfiguration).start(orderCacheConfiguration)
 
-    println(s"Putting Order info: $someOrder into Cache!")
+    logger.info(s"Putting Order info: $someOrder into Cache!")
     orderCacheInstance.put(someOrderUUID, someOrder)
 
 
@@ -57,8 +60,8 @@ object IgniteApp {
 
     val orderFromCache: Option[Order] = cacheClient.map(_.get(someOrderUUID))
     orderFromCache match {
-      case Some(order) => println(s"Order retrieved from Cache: $order")
-      case None => println(s"Couldn't retrieve order $someOrderUUID from cache.")
+      case Some(order) => logger.info(s"Order retrieved from Cache: $order")
+      case None => logger.info(s"Couldn't retrieve order $someOrderUUID from cache.")
     }
 
 

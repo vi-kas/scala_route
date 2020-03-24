@@ -1,14 +1,16 @@
-package io.github.vi_kas
+package io.github.vi_kas.models
 
 import java.util
 import java.util.UUID
 
 import org.apache.ignite.cache.{CacheAtomicityMode, QueryEntity, QueryIndex}
 import org.apache.ignite.configuration.CacheConfiguration
+import org.slf4j.{Logger, LoggerFactory}
 
 case class Order(id: UUID, title: String, quantity: Int, price: Double)
 
 object Order {
+  val logger: Logger = LoggerFactory.getLogger(getClass)
 
   val queryEntities: java.util.Collection[QueryEntity] = new util.ArrayList[QueryEntity]()
   val queryIndexes: java.util.Collection[QueryIndex] = new util.ArrayList[QueryIndex]()
@@ -25,7 +27,7 @@ object Order {
   )
 
   def cacheConfiguration: CacheConfiguration[UUID, Order] = {
-    println(s"[Order] - Creating QueryEntities - $queryEntities with QueryIndexes: $queryIndexes.")
+    logger.info(s"[Order] - Creating QueryEntities - $queryEntities with QueryIndexes: $queryIndexes.")
 
     new CacheConfiguration[UUID, Order]()
       .setName("order")
