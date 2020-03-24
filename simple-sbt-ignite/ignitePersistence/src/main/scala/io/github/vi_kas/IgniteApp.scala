@@ -2,15 +2,11 @@ package io.github.vi_kas
 
 import java.util.UUID
 
+import io.github.vi_kas.config.OrderCacheConfiguration
 import io.github.vi_kas.models.Order
-import javax.cache.configuration.FactoryBuilder
-import org.apache.ignite.cache.CacheMode
+import org.apache.ignite.IgniteCache
 import org.apache.ignite.configuration.{CacheConfiguration, IgniteConfiguration}
-import org.apache.ignite.lang.IgniteFuture
-import org.apache.ignite.{IgniteCache, Ignition}
-
-import scala.concurrent.{Future, Promise}
-import scala.util.{Failure, Success, Try}
+import org.slf4j.{Logger, LoggerFactory}
 
 object IgniteApp {
 
@@ -19,45 +15,27 @@ object IgniteApp {
    */
   def main(args: Array[String]): Unit = {
 
-    implicit val ec = scala.concurrent.ExecutionContext.global
+    val logger: Logger = LoggerFactory.getLogger(getClass)
 
-    val config = new IgniteConfiguration()
-    val cacheCfg = new CacheConfiguration[String, Order]("ignite_order_t")
+    val orderCacheConfiguration: CacheConfiguration[UUID, Order] = OrderCacheConfiguration("ignite_order_t")
 
-    cacheCfg.setCacheStoreFactory(FactoryBuilder.factoryOf(classOf[IgnitePostgresStore]))
-    cacheCfg.setBackups(1)
-    cacheCfg.setCacheMode(CacheMode.REPLICATED)
-    cacheCfg.setReadThrough(true)
-    cacheCfg.setWriteThrough(true)
+    val someOrderUUID: UUID = UUID.fromString("323b68ec-1cb8-4110-c214-f75079b15719")
+    val someOrder: Order = Order(someOrderUUID, "IPhone 11 Pro", 1, 1699)
 
-    config.setCacheConfiguration(cacheCfg)
+    val igniteConfiguration: IgniteConfiguration =
+      new IgniteConfiguration()
+        .setCacheConfiguration(orderCacheConfiguration)
 
-    val ignition = Ignition.start(config)
-    val jdbcCache: IgniteCache[String, Order] =
-      ignition.getOrCreateCache[String, Order]("ignite_order_t")
+    val orderPGCacheInstance: IgniteCache[UUID, Order] =
+      IgniteCacheServer(igniteConfiguration).start(orderCacheConfiguration)
 
-    for (i <- 1 to 10) {
-      jdbcCache.put(i.toString, Order(UUID.randomUUID(), s"order-$i", i + 1, i * 20.0 ))
-    }
+    logger.info(s"Putting Order info: $someOrder into Cache!")
+    orderPGCacheInstance.put(someOrderUUID, someOrder)
 
-    for (i <- 1 to 10) {
-      println(jdbcCache.get(i.toString))
-    }
+    val order: Order = orderPGCacheInstance.get(someOrderUUID)
+    logger.info(s"Order retrieved from Cache: $order")
 
-    implicit class IgniteFutureUtils[T](igniteFuture: IgniteFuture[T]) {
-      def toScalaFuture: Future[T] = {
-        val promise = Promise[T]()
-
-        igniteFuture.listen { k =>
-          promise.tryComplete(Try(k.get))
-        }
-        promise.future
-      }
-    }
-
-    jdbcCache.removeAsync("1").toScalaFuture onComplete {
-      case Success(removed) => println(s"Removed = $removed")
-      case Failure(f) => println("Remove fail")
-    }
+    logger.info(s"Remove Order with ID: $someOrderUUID")
+    orderPGCacheInstance.remove(someOrderUUID)
   }
 }
