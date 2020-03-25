@@ -33,9 +33,16 @@ lazy val ignitePersistence = (project in file("ignitePersistence"))
     libraryDependencies += "com.typesafe.slick" %% "slick" % "3.2.3",
   ) dependsOn core
 
+lazy val igniteKafkaStreamer = (project in file("igniteKafkaStreamer"))
+  .settings(
+    commonSettings,
+    name := "igniteKafkaStreamer",
+    libraryDependencies += "org.apache.ignite" % "ignite-kafka" % "2.8.0"
+  ) dependsOn core
+
 lazy val root = (project in file("."))
   .settings(
     name := "simple-sbt-ignite",
     description := "Demonstrates apache-ignite usage in sbt project",
     commonSettings
-  ) aggregate(distributedKVCache, core)
+  ) aggregate(core)

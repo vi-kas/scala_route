@@ -44,3 +44,6 @@ To run *ignitePersistence* example, give command:
 > sbt ignitePersistence/run
 
 It should run the `IgniteApp`.
+
+#### **igniteKafkaStreamer** [TBD]
+The *igniteKafkaStreamer* module demonstrates ... [TBD]
