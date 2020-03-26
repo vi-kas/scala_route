@@ -44,3 +44,31 @@ To run *ignitePersistence* example, give command:
 > sbt ignitePersistence/run
 
 It should run the `IgniteApp`.
+
+#### **igniteKafkaStreamer**
+The *igniteKafkaStreamer* module demonstrates use of ignite's KafkaStreamer. It's a bare minimum example.
+
+> sbt igniteKafkaStreamer/run
+
+Before giving above command, ensure Kafka is running:
+> cd igniteKafkaStreamer
+> docker-compose up
+
+This should run kafka along with zookeeper(and schema-reg - not needed here).
+> docker ps
+Should give list of containers running.
+
+Perform below to get into running container:
+> docker exec -it broker /bin/bash
+
+Go to below directory:
+> cd usr/bin
+
+Check list of topics:
+> kafka-topics --list --zookeeper zookeeper:2181
+
+Produce a sample message for streaming!
+> kafka-console-producer --broker-list broker:9092 --topic simple.key.value.topic --property "parse.key=true" --property "key.separator=:"
+
+Give a sample key-value
+> key1:value1
