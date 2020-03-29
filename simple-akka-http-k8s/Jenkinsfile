@@ -6,6 +6,8 @@ pipeline {
             steps {
                 echo "Compiling..."
 
+                sh "ls"
+                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt projects"
                 sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceCompile"
             }
         }
