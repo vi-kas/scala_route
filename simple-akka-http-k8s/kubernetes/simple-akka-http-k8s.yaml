@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: simple-akka-http
+  labels:
+    app: simple-akka-http
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-akka-http
+  template:
+    metadata:
+      labels:
+        app: simple-akka-http
+    spec:
+      containers:
+        - image: vikasharma02/vik_repo:latest
+          imagePullPolicy: IfNotPresent
+          name: simple-akka-http
+          env:
+          - name: ENV_VAR_1
+            value: ENV_VAR_VALUE_1

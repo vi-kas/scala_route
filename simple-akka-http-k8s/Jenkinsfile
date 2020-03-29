@@ -1,0 +1,68 @@
+pipeline {
+    agent any
+
+    environment {
+        dockerImage = ''
+        registry = 'vikasharma02/vik_repo'
+        registryCredential = 'dockerhub'
+    }
+
+    stages {
+        stage('Build') {
+            steps {
+               echo "Compiling..."
+
+               sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceCompile"
+            }
+        }
+        stage('Unit Test') {
+            steps {
+               echo "Testing..."
+
+               sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceTest"
+            }
+        }
+        stage('Assembly') {
+            steps {
+               echo "Jar in making..."
+
+               sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt assembly"
+            }
+        }
+        stage('Docker Build') {
+            steps {
+               echo "Building Docker image..."
+
+               script {
+                   docker.withTool('jen_docker') {
+                       dockerImage = docker.build(registry + ":latest", 'simple-akka-http-k8s/')
+                   }
+               }
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                echo "Pushing Docker Image..."
+
+                script {
+                    docker.withTool('jen_docker') {
+                        docker.withRegistry('', registryCredential ) {
+                            dockerImage.push()
+                        }
+                    }
+                }
+            }
+        }
+        stage('Remove Unused Image') {
+            steps {
+                echo "Removing Docker Image..."
+
+                script {
+                    docker.withTool('jen_docker') {
+                        docker.remove(Image(registry + ":latest"))
+                    }
+                }
+            }
+        }
+    }
+}
