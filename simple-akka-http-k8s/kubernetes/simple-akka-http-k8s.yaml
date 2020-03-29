@@ -1,33 +1,23 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  annotations:
+  name: simple-akka-http
   labels:
     app: simple-akka-http
-  name: simple-akka-http
-  namespace: docker-desktop-ns
 spec:
   replicas: 1
   selector:
     matchLabels:
       app: simple-akka-http
-    strategy:
-      rollingUpdate:
-        maxSurge: 1
-        maxUnavailable: 1
-      type: RollingUpdate
-    template:
-      metadata:
-        labels:
-          app: simple-akka-http
-        spec:
-          containers:
-            - image: <image url here>
-              env:
-                - name: ENV_VAR_1
-                  value: ENV_VAR_VALUE_1
-              imagePullPolicy: Always
-              name: simple-akka-http
-          restartPolicy: Always
-          securityContext:
-            runAsUser: 999
+  template:
+    metadata:
+      labels:
+        app: simple-akka-http
+    spec:
+      containers:
+        - image: vikasharma02/vik_repo:latest
+          imagePullPolicy: IfNotPresent
+          name: simple-akka-http
+          env:
+          - name: ENV_VAR_1
+            value: ENV_VAR_VALUE_1

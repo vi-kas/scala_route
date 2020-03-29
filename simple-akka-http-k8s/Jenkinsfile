@@ -59,7 +59,7 @@ pipeline {
 
                 script {
                     docker.withTool('jen_docker') {
-                        dockerImage.remove()
+                        docker.remove(Image())
                     }
                 }
             }
