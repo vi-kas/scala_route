@@ -26,6 +26,7 @@ lazy val usage = (project in file("usage"))
       new Dockerfile {
         from("openjdk:8-jre")
         add(artifact, artifactTargetPath)
+        expose(8080)
         entryPoint("java", "-jar", artifactTargetPath)
       }
     },
