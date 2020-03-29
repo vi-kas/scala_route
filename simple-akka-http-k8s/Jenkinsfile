@@ -16,6 +16,13 @@ pipeline {
                sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceTest"
             }
         }
+        stage('Assembly') {
+            steps {
+               echo "Jar in making..."
+
+               sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt assembly"
+            }
+        }
         stage('Docker Build and Push') {
             steps {
                 echo "Building Docker Image..."
