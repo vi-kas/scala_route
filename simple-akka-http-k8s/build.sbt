@@ -31,17 +31,6 @@ lazy val orderService = (project in file("orderService"))
         entryPoint("java", "-jar", artifactTargetPath)
       }
     },
-    imageNames in docker := Seq(
-      // Sets the latest tag
-      ImageName(s"${organization.value}/${name.value}:latest"),
-
-      // Sets a name with a tag that contains the project version
-      ImageName(
-        namespace = Some(organization.value),
-        repository = name.value,
-        tag = Some("v" + version.value)
-      )
-    ),
     assemblyJarName in assembly := "orderService.jar",
     mainClass in assembly := Some("io.github.vi_kas.Server")
   )
@@ -49,6 +38,7 @@ lazy val orderService = (project in file("orderService"))
 
 addCommandAlias("orderServiceCompile", "orderService/compile")
 addCommandAlias("orderServiceTest", "orderService/test")
+addCommandAlias("orderServiceDocker", "orderService/docker")
 
 lazy val root = (project in file("."))
   .settings(
