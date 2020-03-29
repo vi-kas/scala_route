@@ -22,7 +22,7 @@ pipeline {
 
                 script {
                     docker.withTool('jen_docker') {
-                        def orderServiceImage = docker.build('vi_kas.github.io/order_service:latest', 'simple-akka-http-k8s/orderService/target/')
+                        def orderServiceImage = docker.build('vi_kas.github.io/order_service:latest', 'simple-akka-http-k8s/')
                         orderServiceImage.push()
                     }
                 }
