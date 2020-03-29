@@ -1,16 +1,17 @@
 lazy val commonSettings = Seq(
   name := "scala_route",
   scalaVersion := "2.12.8",
+  organization := "vi_kas.github.io",
   description := "scala_route_one",
   version := "0.0.1",
   libraryDependencies += "org.scalactic" %% "scalactic" % "3.0.8",
   libraryDependencies += "org.scalatest" %% "scalatest" % "3.0.8" % "test"
 )
 
-lazy val usage = (project in file("usage"))
+lazy val orderService = (project in file("orderService"))
   .settings(
     commonSettings,
-    name := "usage",
+    name := "orderService",
     libraryDependencies ++= Seq(
       "com.softwaremill.macwire" %% "macros" % "2.3.2" % "provided",
       "com.typesafe.akka" %% "akka-http"   % "10.1.10",
@@ -30,6 +31,17 @@ lazy val usage = (project in file("usage"))
         entryPoint("java", "-jar", artifactTargetPath)
       }
     },
+    imageNames in docker := Seq(
+      // Sets the latest tag
+      ImageName(s"${organization.value}/${name.value}:latest"),
+
+      // Sets a name with a tag that contains the project version
+      ImageName(
+        namespace = Some(organization.value),
+        repository = name.value,
+        tag = Some("v" + version.value)
+      )
+    ),
     assemblyJarName in assembly := "orderService.jar",
     mainClass in assembly := Some("io.github.vi_kas.Server")
   )
@@ -38,4 +50,4 @@ lazy val usage = (project in file("usage"))
 lazy val root = (project in file("."))
   .settings(
     commonSettings,
-  ) aggregate usage
+  ) aggregate orderService
