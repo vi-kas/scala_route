@@ -20,21 +20,10 @@ lazy val orderService = (project in file("orderService"))
       "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.23",
       "com.typesafe.akka" %% "akka-http-testkit" % "10.1.10"
     ),
-    dockerfile in docker := {
-      val artifact: File = assembly.value
-      val artifactTargetPath = s"/app/${artifact.name}"
-
-      new Dockerfile {
-        from("openjdk:8-jre")
-        add(artifact, artifactTargetPath)
-        expose(8080)
-        entryPoint("java", "-jar", artifactTargetPath)
-      }
-    },
-    assemblyJarName in assembly := "orderService.jar",
+//    assemblyJarName in assembly := "orderService.jar",
+    assemblyOutputPath in assembly := baseDirectory.value / "target" / "orderService.jar" ,
     mainClass in assembly := Some("io.github.vi_kas.Server")
   )
-  .enablePlugins(DockerPlugin)
 
 addCommandAlias("orderServiceCompile", "orderService/compile")
 addCommandAlias("orderServiceTest", "orderService/test")
