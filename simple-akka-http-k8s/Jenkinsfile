@@ -6,8 +6,8 @@ pipeline {
             steps {
                 echo "Compiling..."
 
-                sh "ls"
-                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt projects"
+
+                sh "cd simple-akka-http-k8s"
                 sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceCompile"
             }
         }
@@ -15,13 +15,14 @@ pipeline {
             steps {
                 echo "Testing..."
 
+                sh "cd simple-akka-http-k8s"
                 sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceTest"
             }
         }
         stage('Docker Build and Push') {
             steps {
                 echo "Building Docker Image..."
-                sh "cd orderService"
+                sh "cd simple-akka-http-k8s/orderService"
 
                 script {
                     docker.withTool('docker') {
