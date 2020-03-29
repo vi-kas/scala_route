@@ -6,28 +6,31 @@ pipeline {
             steps {
                 echo "Compiling..."
 
-                sh "ls"
-                sh "cd simple-akka-http-k8s"
-                sh "ls"
-                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceCompile"
+                sh '''
+                    cd simple-akka-http-k8s
+                    ls
+                    ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceCompile
+                   '''
             }
         }
         stage('Unit Test') {
             steps {
                 echo "Testing..."
 
-                sh "cd simple-akka-http-k8s"
-                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceTest"
+                sh '''
+                    cd simple-akka-http-k8s
+                    ls
+                    ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceTest
+                   '''
             }
         }
         stage('Docker Build and Push') {
             steps {
                 echo "Building Docker Image..."
-                sh "cd simple-akka-http-k8s/orderService"
-
+                
                 script {
                     docker.withTool('docker') {
-                        def orderServiceImage = docker.build('vi_kas.github.io/orderService:latest', 'target/docker')
+                        def orderServiceImage = docker.build('vi_kas.github.io/orderService:latest', 'simple-akka-http-k8s/orderService/target/docker')
                         orderServiceImage.push()
                     }
                 }
