@@ -6,14 +6,14 @@ pipeline {
             steps {
                 echo "Compiling..."
 
-                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'orderService/compile'"
+                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'project orderService' compile"
             }
         }
         stage('Unit Test') {
             steps {
                 echo "Testing..."
 
-                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'orderService/test'"
+                sh "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt 'project orderService' test"
             }
         }
         stage('Docker Build and Push') {
