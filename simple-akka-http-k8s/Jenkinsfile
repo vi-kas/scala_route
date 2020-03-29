@@ -1,6 +1,11 @@
 pipeline {
     agent any
 
+    environment {
+        registry = 'vikasharma02/vik_repo'
+        registryCredential = 'dockerhub'
+    }
+
     stages {
         stage('Build') {
             steps {
@@ -29,7 +34,7 @@ pipeline {
 
                 script {
                     docker.withTool('jen_docker') {
-                        def orderServiceImage = docker.build('vikasharma02/order_service:latest', 'simple-akka-http-k8s/')
+                        def orderServiceImage = docker.build(registry + ":latest", 'simple-akka-http-k8s/')
                         orderServiceImage.push()
                     }
                 }
