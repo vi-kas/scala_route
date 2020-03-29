@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment {
+        dockerImage = ''
         registry = 'vikasharma02/vik_repo'
         registryCredential = 'dockerhub'
     }
@@ -28,14 +29,35 @@ pipeline {
                sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt assembly"
             }
         }
-        stage('Docker Build and Push') {
+        stage('Docker Build') {
             steps {
-                echo "Building Docker Image..."
+               echo "Building Docker image..."
+
+               script {
+                   docker.withTool('jen_docker') {
+                       dockerImage = docker.build(registry + ":latest", 'simple-akka-http-k8s/')
+                   }
+               }
+            }
+        }
+        stage('Docker Push') {
+            steps {
+                echo "Pushing Docker Image..."
+
+                script {
+                    docker.withTool('jen_docker').withRegistry( '', registryCredential ) {
+                        dockerImage.push()
+                    }
+                }
+            }
+        }
+        stage('Remove Unused Image') {
+            steps {
+                echo "Removing Docker Image..."
 
                 script {
                     docker.withTool('jen_docker') {
-                        def orderServiceImage = docker.build(registry + ":latest", 'simple-akka-http-k8s/')
-                        orderServiceImage.push()
+                        dockerImage.remove()
                     }
                 }
             }
