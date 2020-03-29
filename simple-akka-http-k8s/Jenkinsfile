@@ -21,7 +21,7 @@ pipeline {
                 echo "Building Docker Image..."
 
                 script {
-                    docker.withTool('docker') {
+                    docker.withTool('jen_docker') {
                         def orderServiceImage = docker.build('vi_kas.github.io/orderService:latest', 'simple-akka-http-k8s/orderService/target/docker')
                         orderServiceImage.push()
                     }
