@@ -59,7 +59,7 @@ pipeline {
 
                 script {
                     docker.withTool('jen_docker') {
-                        docker.remove(Image())
+                        docker.remove(Image(registry + ":latest"))
                     }
                 }
             }

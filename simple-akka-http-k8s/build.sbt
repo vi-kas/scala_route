@@ -20,14 +20,12 @@ lazy val orderService = (project in file("orderService"))
       "com.typesafe.akka" %% "akka-stream-testkit" % "2.5.23",
       "com.typesafe.akka" %% "akka-http-testkit" % "10.1.10"
     ),
-//    assemblyJarName in assembly := "orderService.jar",
     assemblyOutputPath in assembly := baseDirectory.value / "target" / "orderService.jar" ,
     mainClass in assembly := Some("io.github.vi_kas.Server")
   )
 
 addCommandAlias("orderServiceCompile", "orderService/compile")
 addCommandAlias("orderServiceTest", "orderService/test")
-addCommandAlias("orderServiceDocker", "orderService/docker")
 
 lazy val root = (project in file("."))
   .settings(
