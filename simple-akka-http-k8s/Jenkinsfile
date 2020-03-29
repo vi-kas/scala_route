@@ -45,8 +45,10 @@ pipeline {
                 echo "Pushing Docker Image..."
 
                 script {
-                    jen_docker.withRegistry( '', registryCredential ) {
-                        dockerImage.push()
+                    docker.withTool('jen_docker') {
+                        docker.withRegistry('', registryCredential ) {
+                            dockerImage.push()
+                        }
                     }
                 }
             }
