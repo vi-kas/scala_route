@@ -4,27 +4,16 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo "Compiling..."
+               echo "Compiling..."
 
-                sh '''
-                    cd simple-akka-http-k8s &&
-                    ls &&
-                    SBT_INSTALLATION = ${tool name: \'jen_sbt\', type: \'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation\'} &&
-                    echo $SBT_INSTALLATION &&
-                    ${SBT_INSTALLATION}/bin/sbt orderServiceCompile
-                   '''
+               sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceCompile"
             }
         }
         stage('Unit Test') {
             steps {
                 echo "Testing..."
 
-                sh '''
-                    cd simple-akka-http-k8s
-                    ls
-
-                    "${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceTest"
-                   '''
+               sh "cd simple-akka-http-k8s && ${tool name: 'jen_sbt', type: 'org.jvnet.hudson.plugins.SbtPluginBuilder$SbtInstallation'}/bin/sbt orderServiceTest"
             }
         }
         stage('Docker Build and Push') {
