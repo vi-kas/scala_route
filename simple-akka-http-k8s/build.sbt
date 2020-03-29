@@ -47,6 +47,9 @@ lazy val orderService = (project in file("orderService"))
   )
   .enablePlugins(DockerPlugin)
 
+addCommandAlias("orderServiceCompile", "orderService/compile")
+addCommandAlias("orderServiceTest", "orderService/test")
+
 lazy val root = (project in file("."))
   .settings(
     commonSettings,
