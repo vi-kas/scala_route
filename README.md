@@ -22,3 +22,6 @@ Contains code samples for Scala.
 
 ## Simple SBT Ignite
 > [README](https://github.com/vi-kas/scala_route/blob/master/simple-sbt-ignite/README.md)
+
+## Simple Akka Http K8s
+> [README](https://github.com/vi-kas/scala_route/blob/master/simple-akka-http-k8s/README.md)
